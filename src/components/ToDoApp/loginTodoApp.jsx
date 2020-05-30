@@ -20,7 +20,7 @@ class LoginToDoApp extends Component {
                 {/* <IsLoginSuccessfulFunction isLogin={this.state.isLoginSuccessful}></IsLoginSuccessfulFunction>
                 <HasLoginFailedFunction hasFailed={this.state.hasLoginFailed}></HasLoginFailedFunction> */}
                 {/* {this.state.isLoginSuccessful && <div>Login successful</div>} */}
-                {this.state.hasLoginFailed && <div className="alert alert-warning">Credentials sahi daal bkl !!!</div>}<hr />
+                {this.state.hasLoginFailed && <div className="alert alert-warning">Credentials sahi daal be !!!</div>}<hr />
                 Username : <input id="username" type="text" onChange={this.handleUpdate} value={this.state.username}></input>
                 Password : <input id="password" type="password" onChange={this.handleUpdate} value={this.state.password}></input>
                 <button id="loginbtn" onClick={this.loginSubmit} className="btn btn-success">Sign-in</button>
