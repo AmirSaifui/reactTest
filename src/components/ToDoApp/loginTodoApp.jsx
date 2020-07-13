@@ -14,43 +14,74 @@ class LoginToDoApp extends Component {
     render() {
         return (
             <>
-            <h1>Login</h1>
-            <div className="container">
-                {/* <label id="labeltodoapp">My Todo App</label> */}
-                {/* <IsLoginSuccessfulFunction isLogin={this.state.isLoginSuccessful}></IsLoginSuccessfulFunction>
+                <h1>Login</h1>
+                <div className="container">
+                    {/* <label id="labeltodoapp">My Todo App</label> */}
+                    {/* <IsLoginSuccessfulFunction isLogin={this.state.isLoginSuccessful}></IsLoginSuccessfulFunction>
                 <HasLoginFailedFunction hasFailed={this.state.hasLoginFailed}></HasLoginFailedFunction> */}
-                {/* {this.state.isLoginSuccessful && <div>Login successful</div>} */}
-                {this.state.hasLoginFailed && <div className="alert alert-warning">Credentials sahi daal be !!!</div>}<hr />
+                    {/* {this.state.isLoginSuccessful && <div>Login successful</div>} */}
+                    {this.state.hasLoginFailed && <div className="alert alert-warning">Credentials sahi daal be !!!</div>}<hr />
                 Username : <input id="username" type="text" onChange={this.handleUpdate} value={this.state.username}></input>
                 Password : <input id="password" type="password" onChange={this.handleUpdate} value={this.state.password}></input>
-                <button id="loginbtn" onClick={this.loginSubmit} className="btn btn-success">Sign-in</button>
-            </div>
+                    <button id="loginbtn" onClick={this.loginSubmit} className="btn btn-success">Sign-in</button>
+                </div>
             </>
         )
     }
 
     loginSubmit = () => {
-        if (this.state.username === 'amir' && this.state.password === 'saif') {
-            AuthenticationService.registerSuccessfulLogin(this.state.username,this.state.password)
-            this.props.history.push(`/welcome/${this.state.username}`) //To navigate to welcome page
-            this.setState(
-                {
+        // if (this.state.username === 'amir' && this.state.password === 'saif') {
+        //     AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password)
+        //     this.props.history.push(`/welcome/${this.state.username}`) //To navigate to welcome page
+        //     this.setState(
+        //         {
+        //             isLoginSuccessful: true,
+        //             hasLoginFailed: false
+        //         }
+        //     )
+        // } else {
+        //     this.setState(
+        //         {
+        //             hasLoginFailed: true,
+        //             isLoginSuccessful: false
+        //         }
+        //     )
+        // }
+
+
+        // AuthenticationService.executeBasicAuth(this.state.username, this.state.password)
+        //     .then(() => {
+        //         AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password)
+        //         this.props.history.push(`/welcome/${this.state.username}`) //To navigate to welcome page
+        //         this.setState({
+        //             isLoginSuccessful: true,
+        //             hasLoginFailed: false
+        //         })
+        //     }).catch(() => {
+        //         this.setState({
+        //             hasLoginFailed: true,
+        //             isLoginSuccessful: false
+        //         })
+        //     })
+
+            AuthenticationService.executeJWTAuth(this.state.username, this.state.password)
+            .then((response) => {
+                AuthenticationService.registerSuccessfulLoginForJWT(this.state.username, response.data.token)
+                this.props.history.push(`/welcome/${this.state.username}`) //To navigate to welcome page
+                this.setState({
                     isLoginSuccessful: true,
                     hasLoginFailed: false
-                }
-            )
-        } else {
-            this.setState(
-                {
+                })
+            }).catch(() => {
+                this.setState({
                     hasLoginFailed: true,
                     isLoginSuccessful: false
-                }
-            )
-        }
+                })
+            })
     }
 
     // Applying change on target element(event.target) as per the value of id attribute, 
-    // hence no need of 2 different funcS for change update on elements in line 17 and 18
+    // hence no need of 2 different funcS for change update on elements in line 24 and 25
     handleUpdate = (event) => {
         this.setState({ [event.target.id]: event.target.value })
     }
